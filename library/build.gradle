@@ -9,6 +9,7 @@ android {
         targetSdkVersion rootProject.ext.TargetSdk
         versionCode 40
         versionName "1.9.5"
+        vectorDrawables.useSupportLibrary = true
     }
 }
 
