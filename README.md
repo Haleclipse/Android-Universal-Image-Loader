@@ -2,7 +2,7 @@
 
 Sadly UIL no longer updated by it's author. I made some changes based on requirements for my own project.
 
-#### 16/04/2017 
+### 16/04/2017 
 * Code cleanup
 * Updated dependency
 * Updated gradle, target sdk, compile sdk
@@ -10,10 +10,23 @@ Sadly UIL no longer updated by it's author. I made some changes based on require
 * DisplayImageOptions.showImageOnLoading(), DisplayImageOptions.showImageForEmptyUri(), and DisplayImageOptions.showImageOnFail() supports vector drawable
 * Changed min sdk to API 9
 
-## Usage
+Add JitPack repository to root `build.gradle`
+```Gradle
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+Add the dependency
+```Gradle
+dependencies {
+    compile 'com.github.danimahardhika:Android-Universal-Image-Loader:9c948bd75c@aar'
+}
+```
 
-### Acceptable URIs examples
-``` java
+## Acceptable URIs examples
+```java
 "http://site.com/image.png" // from Web
 "file:///mnt/sdcard/image.png" // from SD card
 "file:///mnt/sdcard/video.mp4" // from SD card (video thumbnail)
@@ -21,6 +34,7 @@ Sadly UIL no longer updated by it's author. I made some changes based on require
 "content://media/external/video/media/13" // from content provider (video thumbnail)
 "assets://image.png" // from assets
 "drawable://" + R.drawable.img // from drawables (non-9patch images)
+"package://com.app.package.name" // from installed package name
 ```
 
 ## Donation
