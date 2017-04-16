@@ -2,14 +2,6 @@
 
 Sadly UIL no longer updated by it's author. I made some changes based on requirements for my own project.
 
-### 16/04/2017 
-* Code cleanup
-* Updated dependency
-* Updated gradle, target sdk, compile sdk
-* Added new scheme for `package://` to load installed app icon from package name
-* DisplayImageOptions.showImageOnLoading(), DisplayImageOptions.showImageForEmptyUri(), and DisplayImageOptions.showImageOnFail() supports vector drawable
-* Changed min sdk to API 9
-
 Add JitPack repository to root `build.gradle`
 ```Gradle
 allprojects {
@@ -24,6 +16,14 @@ dependencies {
     compile 'com.github.danimahardhika:Android-Universal-Image-Loader:9c948bd75c@aar'
 }
 ```
+
+### 16/04/2017 
+* Code cleanup
+* Updated dependency
+* Updated gradle, target sdk, compile sdk
+* Added new scheme for `package://` to load installed app icon from package name
+* DisplayImageOptions.showImageOnLoading(), DisplayImageOptions.showImageForEmptyUri(), and DisplayImageOptions.showImageOnFail() supports vector drawable
+* Changed min sdk to API 9
 
 ## Acceptable URIs examples
 ```java
