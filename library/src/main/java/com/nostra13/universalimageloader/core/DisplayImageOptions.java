@@ -15,6 +15,7 @@
  *******************************************************************************/
 package com.nostra13.universalimageloader.core;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory.Options;
@@ -26,6 +27,7 @@ import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
 import com.nostra13.universalimageloader.core.process.BitmapProcessor;
+import com.nostra13.universalimageloader.utils.DrawableUtils;
 
 /**
  * Contains options for image display. Defines:
@@ -130,16 +132,40 @@ public final class DisplayImageOptions {
 		return delayBeforeLoading > 0;
 	}
 
+	/**
+	 * @deprecated use {@link #getImageOnLoading(Context)} instead
+	 */
+	@Deprecated
 	public Drawable getImageOnLoading(Resources res) {
 		return imageResOnLoading != 0 ? res.getDrawable(imageResOnLoading) : imageOnLoading;
 	}
 
+	public Drawable getImageOnLoading(Context context) {
+		return imageResOnLoading != 0 ? DrawableUtils.getDrawable(context, imageResOnLoading) : imageOnLoading;
+	}
+
+	/**
+	 * @deprecated use {@link #getImageForEmptyUri(Context)} instead
+	 */
+	@Deprecated
 	public Drawable getImageForEmptyUri(Resources res) {
 		return imageResForEmptyUri != 0 ? res.getDrawable(imageResForEmptyUri) : imageForEmptyUri;
 	}
 
+	public Drawable getImageForEmptyUri(Context context) {
+		return imageResForEmptyUri != 0 ? DrawableUtils.getDrawable(context, imageResForEmptyUri) : imageForEmptyUri;
+	}
+
+	/**
+	 * @deprecated use {@link #getImageOnFail(Context)} instead
+	 */
+	@Deprecated
 	public Drawable getImageOnFail(Resources res) {
 		return imageResOnFail != 0 ? res.getDrawable(imageResOnFail) : imageOnFail;
+	}
+
+	public Drawable getImageOnFail(Context context) {
+		return imageResOnFail != 0 ? DrawableUtils.getDrawable(context, imageResOnFail) : imageOnFail;
 	}
 
 	public boolean isResetViewBeforeLoading() {

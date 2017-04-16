@@ -59,6 +59,14 @@ public class BaseImageDownloaderTest {
 	}
 
 	@Test
+	public void testSchemePackage() throws Exception {
+		String uri = "package://com.google.android.youtube";
+		Scheme result = Scheme.ofUri(uri);
+		Scheme expected = Scheme.PACKAGE;
+		Assertions.assertThat(result).isEqualTo(expected);
+	}
+
+	@Test
 	public void testSchemeUnknown() throws Exception {
 		String uri = "other://image.com/1.png";
 		Scheme result = Scheme.ofUri(uri);

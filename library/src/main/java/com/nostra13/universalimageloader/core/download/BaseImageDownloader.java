@@ -18,8 +18,14 @@ package com.nostra13.universalimageloader.core.download;
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
@@ -94,6 +100,8 @@ public class BaseImageDownloader implements ImageDownloader {
 				return getStreamFromAssets(imageUri, extra);
 			case DRAWABLE:
 				return getStreamFromDrawable(imageUri, extra);
+			case PACKAGE:
+				return getStreamFromPackage(imageUri, extra);
 			case UNKNOWN:
 			default:
 				return getStreamFromOtherSource(imageUri, extra);
@@ -182,16 +190,13 @@ public class BaseImageDownloader implements ImageDownloader {
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.FROYO)
 	private InputStream getVideoThumbnailStream(String filePath) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-			Bitmap bitmap = ThumbnailUtils
-					.createVideoThumbnail(filePath, MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
-			if (bitmap != null) {
-				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				bitmap.compress(CompressFormat.PNG, 0, bos);
-				return new ByteArrayInputStream(bos.toByteArray());
-			}
+		Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(
+				filePath, MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
+		if (bitmap != null) {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			bitmap.compress(CompressFormat.PNG, 0, bos);
+			return new ByteArrayInputStream(bos.toByteArray());
 		}
 		return null;
 	}
@@ -261,6 +266,51 @@ public class BaseImageDownloader implements ImageDownloader {
 		String drawableIdString = Scheme.DRAWABLE.crop(imageUri);
 		int drawableId = Integer.parseInt(drawableIdString);
 		return context.getResources().openRawResource(drawableId);
+	}
+
+	/**
+	 * Retrieves {@link InputStream} of image by URI (image source from package name).
+	 *
+	 * @param imageUri Image URI
+	 * @param extra    Auxiliary object which was passed to {@link DisplayImageOptions.Builder#extraForDownloader(Object)
+	 *                 DisplayImageOptions.extraForDownloader(Object)}; can be null
+	 * @return {@link InputStream} of image
+	 * @throws IOException if some I/O error occurs
+	 */
+	protected InputStream getStreamFromPackage(String imageUri, Object extra) throws IOException {
+		PackageManager packageManager = context.getPackageManager();
+		PackageInfo packageInfo = null;
+		String packageName = Scheme.PACKAGE.crop(imageUri);
+
+		try {
+			packageInfo = packageManager.getPackageInfo(
+					packageName, PackageManager.GET_ACTIVITIES);
+		} catch (PackageManager.NameNotFoundException ignored) {}
+
+		if (packageInfo != null) {
+			Drawable drawable = packageInfo.applicationInfo.loadIcon(packageManager);
+
+			Bitmap bitmap;
+			if (drawable instanceof LayerDrawable) {
+				bitmap = Bitmap.createBitmap(
+						drawable.getIntrinsicWidth(),
+						drawable.getIntrinsicHeight(),
+						Bitmap.Config.ARGB_8888);
+				//Use format ARGB_8888 to support alpha
+				drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+				drawable.draw(new Canvas(bitmap));
+			} else {
+				bitmap = ((BitmapDrawable) drawable).getBitmap();
+			}
+
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+			//quality only for format JPEG
+			bitmap.recycle();
+			//Recycle bitmap
+			return new ByteArrayInputStream(stream.toByteArray());
+		}
+		return getStreamFromOtherSource(imageUri, extra);
 	}
 
 	/**

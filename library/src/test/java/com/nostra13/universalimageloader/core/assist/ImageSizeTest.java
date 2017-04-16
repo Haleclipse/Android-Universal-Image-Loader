@@ -2,6 +2,7 @@ package com.nostra13.universalimageloader.core.assist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -64,7 +65,7 @@ public class ImageSizeTest {
 
 		ImageSize expected = new ImageSize(500, 500);
 		ImageSize result = ImageSizeUtils.defineTargetSizeForView(mImageAware, new ImageSize(500, 500));
-		Assertions.assertThat(result).isNotNull().isEqualsToByComparingFields(expected);
+		Assertions.assertThat(result).isNotNull().isEqualToComparingFieldByField(expected);
 	}
 
 	@Test
@@ -74,14 +75,14 @@ public class ImageSizeTest {
 
 		ImageSize expected = new ImageSize(300, 300);
 		ImageSize result = ImageSizeUtils.defineTargetSizeForView(mImageAware, new ImageSize(500, 500));
-		Assertions.assertThat(result).isNotNull().isEqualsToByComparingFields(expected);
+		Assertions.assertThat(result).isNotNull().isEqualToComparingFieldByField(expected);
 	}
 
 	@Test
 	public void testGetImageSizeScaleTo_useImageConfigMaxSize() throws Exception {
 		ImageSize expected = new ImageSize(500, 500);
 		ImageSize result = ImageSizeUtils.defineTargetSizeForView(mImageAware, new ImageSize(500, 500));
-		Assertions.assertThat(result).isNotNull().isEqualsToByComparingFields(expected);
+		Assertions.assertThat(result).isNotNull().isEqualToComparingFieldByField(expected);
 	}
 
 	@Test
@@ -167,7 +168,7 @@ public class ImageSizeTest {
 	}
 
 	/** Fixes {@link NoSuchMethodError} for <code>ImageView#onLayout(...)</code> */
-	private class TestImageView extends ImageView {
+	private class TestImageView extends AppCompatImageView {
 		TestImageView(Context activity) {
 			super(activity);
 		}

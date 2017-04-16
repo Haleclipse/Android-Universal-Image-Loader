@@ -248,7 +248,7 @@ public class ImageLoader {
 			engine.cancelDisplayTaskFor(imageAware);
 			listener.onLoadingStarted(uri, imageAware.getWrappedView());
 			if (options.shouldShowImageForEmptyUri()) {
-				imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
+				imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.context));
 			} else {
 				imageAware.setImageDrawable(null);
 			}
@@ -284,7 +284,7 @@ public class ImageLoader {
 			}
 		} else {
 			if (options.shouldShowImageOnLoading()) {
-				imageAware.setImageDrawable(options.getImageOnLoading(configuration.resources));
+				imageAware.setImageDrawable(options.getImageOnLoading(configuration.context));
 			} else if (options.isResetViewBeforeLoading()) {
 				imageAware.setImageDrawable(null);
 			}

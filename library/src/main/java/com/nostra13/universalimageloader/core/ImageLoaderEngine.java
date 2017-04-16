@@ -15,6 +15,7 @@
  *******************************************************************************/
 package com.nostra13.universalimageloader.core;
 
+import android.util.SparseArray;
 import android.view.View;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.FlushedInputStream;
@@ -22,8 +23,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.Executor;
@@ -45,9 +44,8 @@ class ImageLoaderEngine {
 	private Executor taskExecutorForCachedImages;
 	private Executor taskDistributor;
 
-	private final Map<Integer, String> cacheKeysForImageAwares = Collections
-			.synchronizedMap(new HashMap<Integer, String>());
-	private final Map<String, ReentrantLock> uriLocks = new WeakHashMap<String, ReentrantLock>();
+	private final SparseArray<String> cacheKeysForImageAwares = new SparseArray<>();
+	private final Map<String, ReentrantLock> uriLocks = new WeakHashMap<>();
 
 	private final AtomicBoolean paused = new AtomicBoolean(false);
 	private final AtomicBoolean networkDenied = new AtomicBoolean(false);

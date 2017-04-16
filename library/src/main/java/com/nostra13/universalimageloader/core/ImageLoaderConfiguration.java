@@ -16,7 +16,6 @@
 package com.nostra13.universalimageloader.core;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.FileNameGenerator;
@@ -49,7 +48,7 @@ import java.util.concurrent.Executor;
  */
 public final class ImageLoaderConfiguration {
 
-	final Resources resources;
+	final Context context;
 
 	final int maxImageWidthForMemoryCache;
 	final int maxImageHeightForMemoryCache;
@@ -76,7 +75,7 @@ public final class ImageLoaderConfiguration {
 	final ImageDownloader slowNetworkDownloader;
 
 	private ImageLoaderConfiguration(final Builder builder) {
-		resources = builder.context.getResources();
+		context = builder.context;
 		maxImageWidthForMemoryCache = builder.maxImageWidthForMemoryCache;
 		maxImageHeightForMemoryCache = builder.maxImageHeightForMemoryCache;
 		maxImageWidthForDiskCache = builder.maxImageWidthForDiskCache;
@@ -128,7 +127,7 @@ public final class ImageLoaderConfiguration {
 	}
 
 	ImageSize getMaxImageSize() {
-		DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 
 		int width = maxImageWidthForMemoryCache;
 		if (width <= 0) {

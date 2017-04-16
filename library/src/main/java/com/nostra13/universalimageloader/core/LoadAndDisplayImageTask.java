@@ -355,7 +355,7 @@ final class LoadAndDisplayImageTask implements Runnable, IoUtils.CopyListener {
 			@Override
 			public void run() {
 				if (options.shouldShowImageOnFail()) {
-					imageAware.setImageDrawable(options.getImageOnFail(configuration.resources));
+					imageAware.setImageDrawable(options.getImageOnFail(configuration.context));
 				}
 				listener.onLoadingFailed(uri, imageAware.getWrappedView(), new FailReason(failType, failCause));
 			}
