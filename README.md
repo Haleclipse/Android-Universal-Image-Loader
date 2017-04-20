@@ -13,9 +13,12 @@ allprojects {
 Add the dependency
 ```Gradle
 dependencies {
-    compile 'com.github.danimahardhika:Android-Universal-Image-Loader:9c948bd75c@aar'
+    compile 'com.github.danimahardhika:Android-Universal-Image-Loader:056f384091@aar'
 }
 ```
+
+### 21/04/2017
+* Fixed bitmap still in use get recycled
 
 ### 16/04/2017 
 * Code cleanup
