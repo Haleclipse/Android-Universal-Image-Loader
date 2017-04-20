@@ -306,6 +306,8 @@ public class BaseImageDownloader implements ImageDownloader {
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
 			//quality only for format JPEG
+			bitmap.recycle();
+			//Recycle bitmap
 			return new ByteArrayInputStream(stream.toByteArray());
 		}
 		return getStreamFromOtherSource(imageUri, extra);
